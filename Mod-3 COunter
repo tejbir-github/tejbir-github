@@ -1,0 +1,40 @@
+module mod3_counter;
+  reg clk, reset;
+  reg [2:0]count;
+  initial
+  //initial begin
+       clk = 0;
+     always #10 clk =~clk;
+   // end
+
+  always@(posedge clk or posedge reset)begin
+    repeat(5)
+    if(reset) begin 
+        count <= 2'b00;
+              end
+      else begin
+        if(count == 2'b10) begin
+          count <= 2'b00;
+                           end
+        else begin
+          count <= count+1'b1;
+        
+    end
+      end
+  end
+        
+        initial begin
+          $dumpfile("dump.vcd");
+          $dumpvars;
+        end
+   initial begin
+     clk = 0;
+     reset = 1;
+     # 10 reset = 0;
+     # 100 $finish;
+   end
+  
+  initial begin
+    $monitor("time = %ot , reset =%0b, count =%b",$time, reset,count);
+  end
+      endmodule
